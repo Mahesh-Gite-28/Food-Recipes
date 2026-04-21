@@ -15,12 +15,11 @@ const recipeschema=mongoose.Schema({
     },
     time:{
         type:String,
-        
     },
     coverImage:{
         type:String,
-        
-    }
+    },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }
 },{timestamps:true});
 
 
