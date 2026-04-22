@@ -20,7 +20,14 @@ router.post("/addRecipe", auth, (req, res, next) => {
   });
 }, addRecipe);
 router.delete("/:id/delete", auth, delRecipe);
-router.patch("/:id/edit", auth, editRecipe);
+router.patch("/:id/edit", auth, (req, res, next) => {
+  upload.single("coverImage")(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message || "Image upload failed" });
+    }
+    next();
+  });
+}, editRecipe);
 router.post("/:id/favourite", auth, toggleFavourite);
 
 module.exports = router;

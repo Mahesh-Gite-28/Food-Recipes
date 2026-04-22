@@ -15,6 +15,8 @@ const RecipeDetails = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editForm, setEditForm] = useState({ title: "", ingredients: "", instructions: "", time: "" });
+  const [editImageFile, setEditImageFile] = useState(null);
+  const [editImagePreview, setEditImagePreview] = useState(null);
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState("");
 
@@ -64,7 +66,17 @@ const RecipeDetails = () => {
       instructions: recipe.instructions || "",
       time: recipe.time || ""
     });
+    setEditImagePreview(recipe.coverImage || null);
+    setEditImageFile(null);
     setShowEditModal(true);
+  };
+
+  const handleEditImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEditImageFile(file);
+      setEditImagePreview(URL.createObjectURL(file));
+    }
   };
 
   const handleEditSubmit = async (e) => {
@@ -72,11 +84,19 @@ const RecipeDetails = () => {
     setEditLoading(true);
     setEditError("");
     try {
+      const formData = new FormData();
+      formData.append("title", editForm.title);
+      formData.append("ingredients", editForm.ingredients);
+      formData.append("instructions", editForm.instructions);
+      formData.append("time", editForm.time);
+      if (editImageFile) {
+        formData.append("coverImage", editImageFile);
+      }
+
       const res = await fetch(`${API_BASE}/${id}/edit`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify(editForm),
+        body: formData,
       });
       const data = await res.json();
       if (res.ok) {
@@ -254,6 +274,20 @@ const RecipeDetails = () => {
                   onChange={(e) => setEditForm({ ...editForm, time: e.target.value })}
                   className="w-full border p-2 rounded focus:ring-2 focus:ring-green-500 outline-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Cover Image</label>
+                {editImagePreview && (
+                  <img src={editImagePreview} alt="Preview" className="w-full h-40 object-cover rounded-lg border mb-2" />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleEditImageChange}
+                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                />
+                <p className="text-xs text-gray-400 mt-1">Leave empty to keep existing image</p>
               </div>
 
               {editError && (

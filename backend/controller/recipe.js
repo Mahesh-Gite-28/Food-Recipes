@@ -102,7 +102,11 @@ const editRecipe = async (req, res) => {
     if (recipe.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: "Not authorized to edit this recipe" });
     }
-    const updatedRecipe = await Recipes.findByIdAndUpdate(_id, req.body, { new: true }).populate("createdBy", "username");
+    const updateData = { ...req.body };
+    if (req.file) {
+      updateData.coverImage = req.file.path;
+    }
+    const updatedRecipe = await Recipes.findByIdAndUpdate(_id, updateData, { new: true }).populate("createdBy", "username");
     return res.status(200).json(updatedRecipe);
   } catch (err) {
     return res.status(500).json({ message: err.message });
