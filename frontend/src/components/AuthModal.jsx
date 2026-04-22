@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { ToastContext, useToast } from "../context/ToastContext";
 import { API_BASE } from "../utils/api";
 
 const AuthModal = ({ show, setShow, initialMode = "login" }) => {
@@ -8,6 +9,7 @@ const AuthModal = ({ show, setShow, initialMode = "login" }) => {
   const [msg, setMsg] = useState("");
   const [isError, setIsError] = useState(false);
   const { login } = useContext(AuthContext);
+  const { showToast } = useToast();
 
   useEffect(() => {
     setIsLogin(initialMode === "login");
@@ -55,6 +57,9 @@ const AuthModal = ({ show, setShow, initialMode = "login" }) => {
 
         if (isLogin) {
           login(data.user);
+          showToast("Welcome back! You are now logged in. 👋", "success");
+        } else {
+          showToast("Account created successfully! Please log in.", "success");
         }
 
         setForm({ username: "", email: "", password: "" });
@@ -65,10 +70,12 @@ const AuthModal = ({ show, setShow, initialMode = "login" }) => {
       } else {
         setMsg(data.message || "Error");
         setIsError(true);
+        showToast(data.message || "Something went wrong.", "error");
       }
     } catch (err) {
       setMsg("Something went wrong");
       setIsError(true);
+      showToast("Something went wrong.", "error");
       console.log(err);
     }
   };

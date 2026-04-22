@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { API_BASE } from "../utils/api";
 
 const AddRecipeModal = ({ show, setShow, onRecipeAdded }) => {
   const { user } = useContext(AuthContext);
+  const { showToast } = useToast();
   const [form, setForm] = useState({
     title: "",
     ingredients: "",
@@ -48,11 +50,14 @@ const AddRecipeModal = ({ show, setShow, onRecipeAdded }) => {
         setShow(false);
         setForm({ title: "", ingredients: "", instructions: "", time: "" });
         setImageFile(null);
+        showToast("Your recipe has been shared successfully! 🍽️", "success");
       } else {
         setError(data.message || "Failed to add recipe");
+        showToast(data.message || "Failed to add recipe.", "error");
       }
     } catch (err) {
       setError("Something went wrong");
+      showToast("Something went wrong.", "error");
     } finally {
       setLoading(false);
     }
