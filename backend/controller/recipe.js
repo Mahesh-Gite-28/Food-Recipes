@@ -4,7 +4,7 @@ const Recipes = require("../models/recipe.js");
 // GET all recipes
 const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipes.find();
+    const recipes = await Recipes.find().populate("createdBy", "username");
     return res.status(200).json({ recipes });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -15,7 +15,7 @@ const getAllRecipes = async (req, res) => {
 const getRecipe = async (req, res) => {
   try {
     const _id = req.params.id;
-    const recipe = await Recipes.findById(_id);
+    const recipe = await Recipes.findById(_id).populate("createdBy", "username");
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
     }
@@ -29,7 +29,7 @@ const getRecipe = async (req, res) => {
 const myRecipes = async (req, res) => {
   try {
     const userId = req.user.id;
-    const recipes = await Recipes.find({ createdBy: userId });
+    const recipes = await Recipes.find({ createdBy: userId }).populate("createdBy", "username");
     return res.status(200).json({ recipes });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -43,7 +43,7 @@ const getfavRecipes = async (req, res) => {
     // Populate favourites from User model
     const User = require("../models/user.js");
     const user = await User.findById(userId).select("favourites");
-    const recipes = await Recipes.find({ _id: { $in: user.favourites } });
+    const recipes = await Recipes.find({ _id: { $in: user.favourites } }).populate("createdBy", "username");
     return res.status(200).json({ recipes });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -102,7 +102,7 @@ const editRecipe = async (req, res) => {
     if (recipe.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: "Not authorized to edit this recipe" });
     }
-    const updatedRecipe = await Recipes.findByIdAndUpdate(_id, req.body, { new: true });
+    const updatedRecipe = await Recipes.findByIdAndUpdate(_id, req.body, { new: true }).populate("createdBy", "username");
     return res.status(200).json(updatedRecipe);
   } catch (err) {
     return res.status(500).json({ message: err.message });
