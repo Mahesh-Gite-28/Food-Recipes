@@ -1,159 +1,112 @@
 # 🍽️ Recipe Garage
 
-A full-stack recipe sharing web app where users can browse, add, edit, and favourite recipes with image uploads.
+A full-stack recipe sharing platform where food lovers can discover, create, and save their favourite recipes.
 
-**Live Demo:** [Frontend on Vercel](https://your-frontend.vercel.app) &nbsp;|&nbsp; **API:** [https://recipegarage.onrender.com](https://recipegarage.onrender.com)
-
----
-
-## Tech Stack
-
-**Frontend**
-
-- React + Vite
-- Tailwind CSS
-- Context API (Auth + Toast)
-
-**Backend**
-
-- Node.js + Express
-- MongoDB + Mongoose
-- JWT Authentication (via cookies)
-- Cloudinary (image uploads)
-- Multer
+🔗 **Live Demo:** [https://recipe-garage.vercel.app](https://recipe-garage.vercel.app)
 
 ---
 
-## Features
+## 📸 Screenshots
 
-- Browse all recipes on the home page
-- Register / Login with JWT-based auth
-- Add a recipe with a cover image
-- Edit or delete your own recipes
-- Mark recipes as favourite
-- View your own recipes and favourited recipes separately
+### 🏠 Landing Page
+![Landing Page](./screenshots/screenshot1.png)
 
----
+### 🔍 Browse Recipes
+![Browse Recipes](./screenshots/screenshot2.png)
 
-## Project Structure
+### 📖 Recipe Details
+![Recipe Details](./screenshots/screenshot3.png)
 
-```
-RecipeGarage/
-├── backend/
-│   ├── config/
-│   │   ├── db.js              # MongoDB connection
-│   │   └── cloudinary.js      # Cloudinary + multer setup
-│   ├── controller/
-│   │   ├── recipe.js          # Recipe CRUD logic
-│   │   └── user.js            # Auth logic
-│   ├── middleware/
-│   │   └── auth.js            # JWT middleware
-│   ├── models/
-│   │   ├── recipe.js          # Recipe schema
-│   │   └── user.js            # User schema
-│   ├── routes/
-│   │   ├── recipe.js          # Recipe routes
-│   │   └── user.js            # User routes
-│   ├── .env.example
-│   └── server.js
-│
-└── frontend/
-    ├── public/
-    ├── src/
-    │   ├── components/        # All UI components
-    │   ├── context/           # AuthContext, ToastContext
-    │   ├── utils/
-    │   │   └── api.js         # API base URL
-    │   ├── App.jsx
-    │   └── main.jsx
-    ├── .env.example
-    └── vite.config.js
-```
+### ❤️ Favourite Recipes
+![Favourite Recipes](./screenshots/screenshot4.png)
 
 ---
 
-## API Endpoints
+## ✨ Features
 
-### Auth Routes — `/api`
-
-| Method | Endpoint  | Access    | Description                  |
-| ------ | --------- | --------- | ---------------------------- |
-| POST   | `/signup` | Public    | Register a new user          |
-| POST   | `/login`  | Public    | Login and receive JWT cookie |
-| POST   | `/logout` | Public    | Clear auth cookie            |
-| GET    | `/user`   | Protected | Get logged-in user info      |
-
-### Recipe Routes — `/api`
-
-| Method | Endpoint         | Access    | Description                   |
-| ------ | ---------------- | --------- | ----------------------------- |
-| GET    | `/`              | Public    | Get all recipes               |
-| GET    | `/:id`           | Public    | Get single recipe             |
-| GET    | `/myRecipe`      | Protected | Get current user's recipes    |
-| GET    | `/favRecipe`     | Protected | Get user's favourited recipes |
-| POST   | `/addRecipe`     | Protected | Add new recipe (with image)   |
-| PATCH  | `/:id/edit`      | Protected | Edit a recipe                 |
-| DELETE | `/:id/delete`    | Protected | Delete a recipe               |
-| POST   | `/:id/favourite` | Protected | Toggle favourite on a recipe  |
+- 🔐 **User Authentication** — Secure signup & login with JWT cookie-based sessions
+- 🍳 **Add Recipes** — Create recipes with title, ingredients, instructions, cook time & cover image
+- 📋 **My Recipes** — Manage all recipes you've created (edit & delete)
+- ❤️ **Favourites** — Save and view your favourite recipes from other users
+- 🖼️ **Image Upload** — Recipe cover images stored on Cloudinary
+- 📱 **Responsive Design** — Works seamlessly on mobile and desktop
 
 ---
 
-## Getting Started Locally
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| React + Vite | UI framework & build tool |
+| Tailwind CSS | Styling |
+| React Router | Client-side routing |
+| Context API | Global auth state |
+
+### Backend
+| Technology | Purpose |
+|---|---|
+| Node.js + Express | REST API server |
+| MongoDB + Mongoose | Database |
+| JWT + Cookies | Authentication |
+| Bcrypt | Password hashing |
+| Cloudinary + Multer | Image storage & upload |
+
+### Deployment
+| Service | Purpose |
+|---|---|
+| Vercel | Frontend hosting |
+| Render | Backend hosting |
+| MongoDB Atlas | Cloud database |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
 - Node.js v18+
 - MongoDB Atlas account
 - Cloudinary account
 
-### 1. Clone the repo
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/Mahesh-Gite-28/RecipeGarage.git
 cd RecipeGarage
 ```
 
 ### 2. Setup Backend
-
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend/` folder:
-
+Create a `.env` file in the `backend` folder:
 ```env
 PORT=5000
-MONGO_URL=your_mongodb_atlas_connection_string
-JWT_SECRET=your_jwt_secret
-
-CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-Start the backend:
-
+Start the backend server:
 ```bash
-npm run dev
+node server.js
 ```
 
 ### 3. Setup Frontend
-
 ```bash
-cd ../frontend
+cd frontend
 npm install
 ```
 
-Create a `.env` file in the `frontend/` folder:
-
+Create a `.env` file in the `frontend` folder:
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
-Start the frontend:
-
+Start the frontend dev server:
 ```bash
 npm run dev
 ```
@@ -162,59 +115,83 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Deployment
+## 📁 Project Structure
 
-| Service  | Platform                     |
-| -------- | ---------------------------- |
-| Backend  | [Render](https://render.com) |
-| Frontend | [Vercel](https://vercel.com) |
-| Database | MongoDB Atlas                |
-| Images   | Cloudinary                   |
-
-### Backend (Render)
-
-- Root directory: `backend`
-- Build command: `npm install`
-- Start command: `node server.js`
-- Add all `.env` variables in Render's Environment tab
-
-### Frontend (Vercel)
-
-- Root directory: `frontend`
-- Framework: Vite (auto-detected)
-- Add environment variable: `VITE_API_URL=https://recipegarage.onrender.com/api`
-
----
-
-## Environment Variables Summary
-
-### Backend `.env`
-
-| Key                     | Description                     |
-| ----------------------- | ------------------------------- |
-| `PORT`                  | Server port (default 5000)      |
-| `MONGO_URL`             | MongoDB Atlas connection string |
-| `JWT_SECRET`            | Secret key for JWT signing      |
-| `CLOUDINARY_CLOUD_NAME` | Your Cloudinary cloud name      |
-| `CLOUDINARY_API_KEY`    | Cloudinary API key              |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret           |
-
-### Frontend `.env`
-
-| Key            | Description          |
-| -------------- | -------------------- |
-| `VITE_API_URL` | Backend API base URL |
+```
+RecipeGarage/
+├── backend/
+│   ├── config/
+│   │   ├── db.js              # MongoDB connection
+│   │   └── cloudinary.js      # Cloudinary config
+│   ├── controller/
+│   │   ├── user.js            # Auth logic
+│   │   └── recipe.js          # Recipe CRUD logic
+│   ├── middleware/
+│   │   └── auth.js            # JWT auth middleware
+│   ├── models/
+│   │   ├── user.js            # User schema
+│   │   └── recipe.js          # Recipe schema
+│   ├── routes/
+│   │   ├── user.js            # Auth routes
+│   │   └── recipe.js          # Recipe routes
+│   └── server.js              # Express app entry point
+│
+└── frontend/
+    ├── public/
+    ├── src/
+    │   ├── components/        # All React components
+    │   ├── context/
+    │   │   └── AuthContext.jsx # Global auth state
+    │   ├── utils/
+    │   │   └── api.js         # API base URL
+    │   ├── App.jsx
+    │   └── main.jsx
+    └── vite.config.js
+```
 
 ---
 
-## Author
+## 🔌 API Endpoints
+
+### Auth
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| POST | `/api/signup` | Register new user | ❌ |
+| POST | `/api/login` | Login user | ❌ |
+| POST | `/api/logout` | Logout user | ❌ |
+| GET | `/api/user` | Get current user | ✅ |
+
+### Recipes
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| GET | `/api/` | Get all recipes | ❌ |
+| GET | `/api/:id` | Get single recipe | ❌ |
+| POST | `/api/addRecipe` | Add new recipe | ✅ |
+| PATCH | `/api/:id/edit` | Edit recipe | ✅ |
+| DELETE | `/api/:id/delete` | Delete recipe | ✅ |
+| GET | `/api/myRecipe` | Get my recipes | ✅ |
+| GET | `/api/favRecipe` | Get favourites | ✅ |
+| POST | `/api/:id/favourite` | Toggle favourite | ✅ |
+
+---
+
+## 🌐 Deployment Notes
+
+This app uses **cross-origin cookie authentication** (Vercel frontend + Render backend). The login cookie is set with:
+```js
+{ httpOnly: true, secure: true, sameSite: "None" }
+```
+This is required for cookies to work across different domains in production.
+
+---
+
+## 👨‍💻 Author
 
 **Mahesh Gite**
-
 - GitHub: [@Mahesh-Gite-28](https://github.com/Mahesh-Gite-28)
 
 ---
 
-## License
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
