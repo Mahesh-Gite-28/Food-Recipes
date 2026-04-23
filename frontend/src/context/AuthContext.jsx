@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${process.env.VITE_API_BASE || "http://localhost:5000/api"}/logout`, {
+      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/logout`, {
         method: "POST",
         credentials: "include",
       });

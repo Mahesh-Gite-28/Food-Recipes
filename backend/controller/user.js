@@ -49,7 +49,12 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid email or password" });
     }
     const token = jwt.sign({ id: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" });
-    res.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax" });
+    res.cookie("token", token, { 
+      httpOnly: true, 
+      secure: true, 
+      sameSite: "None", 
+      maxAge: 7 * 24 * 60 * 60 * 1000 
+    });
     return res.status(200).json({ success: true, message: "Login successful", user: { id: user._id, email: user.email, username: user.username } });
   } catch (err) {
     return res.status(500).json({ success: false, message: "Server error" });
