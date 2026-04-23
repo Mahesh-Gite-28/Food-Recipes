@@ -6,12 +6,20 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const cors = require('cors');
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://recipe-garage.vercel.app"
-  ],
-  credentials: true
+app.use(cors({ 
+  origin: function (origin, callback) { 
+    const allowedOrigins = [ 
+      "http://localhost:5173", 
+      "https://recipe-garage.vercel.app" 
+    ]; 
+    // Allow any Vercel preview deployment for this project 
+    if (!origin || allowedOrigins.includes(origin) || /https:\/\/recipe-garage.*\.vercel\.app$/.test(origin)) { 
+      callback(null, true); 
+    } else { 
+      callback(new Error("Not allowed by CORS")); 
+    } 
+  }, 
+  credentials: true, 
 }));
 
 app.use(cookieParser()); // parse cookies for auth
